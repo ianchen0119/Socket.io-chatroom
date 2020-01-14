@@ -1,0 +1,82 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif+TC&display=swap');
+		*{
+			font-family: 'Noto Serif TC', serif;
+		}
+		body{
+			background-color: #000;
+			color: white;
+		}
+		.loading__box{
+			border-radius: 25px;
+			padding: 50px 100px;
+			width: 200px;
+			position: absolute;
+			left: 50%;
+			top: 30%;
+			transform: translate(-50%,-50%);
+			z-index: 1;
+			color: #000;
+			background-color: #FFF;
+			font-family: "微軟正黑體";
+			text-align: center;
+		}
+		.message .message__box--right::after, .message .message__box--left::after {
+		  border-style: solid solid solid solid;
+		  /* 設定邊框大小可拼湊出任意形狀的三角形 */
+		  border-width: 15px 10px 15px 10px;
+		  bottom: -1em;
+		  /* 必須指定，才能顯示內容 */
+		  content: "";
+		  height: 0px;
+		  position: absolute;
+		  width: 0px;
+		  z-index: -1;
+		}
+
+		.clear {
+		  clear: both;
+		}
+
+		.message {
+		  width: 70vw;
+		  height: 50vh;
+		  overflow: scroll;
+		  overflow-x:hidden;
+		  margin: 0 auto;
+		  background-color: aliceblue;
+		}
+		.message .message__box {
+		  background-color: #00EC00;
+		  color: black;
+		  padding: 1vh 2vw;
+		  margin: 1vh 2vw;
+		  border: 1px solid #00EC00;
+		  border-radius: 10px;
+		  position: relative;
+		  z-index: 1;
+		  width: 8em;
+		  word-break: break-all;
+		}
+		.message .message__box--right::after {
+		  border-color: #00EC00 #00EC00 transparent transparent;
+		  left: 7em;
+		}
+		.message .message__box--left::after {
+		  border-color: #00EC00 transparent transparent #00EC00;
+		  right: 7em;
+		}
+		.message .message__box--left {
+		  float: left;
+		}
+		.message .message__box--right {
+		  float: right;
+		}
+		.scroll{
+			height: 52.06px;
+		}
+		.send__box{
+			position: absolute;
+			left: 50vw;
+			transform: translate(-50%,-50%);
+		}

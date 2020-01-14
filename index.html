@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+	<link href="/style" rel="stylesheet">
+</head>
+<body>
+	<div id="app">
+		<div class="loading__box" v-show="isLoading">正在配對...</div>
+		<br>
+		<div class="send__box">
+			<label for="">輸入關鍵字</label>
+			<input type="text" v-model="key">
+			<button class="setbtn" @click="setId">確定</button>
+		</div>
+		<br>
+		<div class="message" id="messageBody">
+			<div v-for="data in msgarr">
+			<div v-if="data.me" class="message__box message__box--right">
+				{{data.content}}
+			</div>
+			<div class="message__box message__box--left" v-else>
+				{{data.content}}
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="scroll"></div>
+		</div>
+		<br>
+		<div class="send__box send__box-bottom">
+			<input type="text" v-model="send">
+			<button @click="sendMessage"class="submit">送出</button>
+			<button @click="discon">退出聊天</button>
+		</div>
+	</div>
+	<script>
+		var socket = io("http://localhost:8080/");
+		var app = new Vue({
+			el:'#app',
+			data:{
+				key:null,
+				send:null,
+				msgarr:[],
+				keyId:null,
+				obj:null,//聊天對象的socketId
+				isLoading:false
+			},
+			created(){
+				this.init()
+			},
+			methods:{
+				setId(){
+					this.keyId = this.key;
+					document.querySelector('.setbtn').style.display = "none";
+					socket.emit('catch', this.keyId);//傳送關鍵字給伺服器
+					this.isLoading = true;
+					this.catchobj();//監聽伺服器回傳配對的聊天對象
+				},
+				catchobj(){
+					socket.on('catch',
+						msg=>{
+							this.obj = msg;
+							this.isLoading = false;
+						}
+					)
+				},
+				sendMessage(){
+					if (this.obj==null) {
+						alert("請先進行配對！")
+					}
+					else{
+						if (this.send==null||this.send==""){
+						alert("請輸入訊息！");
+						}
+						else{
+							socket.emit('message',
+							{
+								content:`${this.send}`,
+								obj:`${this.obj}`
+							}
+						);
+						app.msgarr.push({content:`${this.send}`,me:true});
+						this.send="";
+						}
+					}
+				},
+				init(){
+				socket.on('msg', function(msg){
+
+				//如果收到的msg不是空值，再將訊息放到畫面上
+				app.msgarr.push(msg);
+		      	msg=null;
+				
+				var messageBody = document.querySelector('#messageBody');
+				messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+		      	})
+		      	//監聽leave事件
+		      	socket.on('leave', function(msg){
+				alert(`對方離開了聊天室`)
+				document.querySelector('.send__box-bottom').style.display = "none";
+		      	})
+				},
+				async discon(){
+					await socket.emit('leave',this.obj);
+					//等待將離開訊息傳送到伺服器上，在做disconnect
+					await socket.disconnect();
+					alert("請自行關閉視窗");
+					document.querySelector('.send__box-bottom').style.display = "none";
+				}
+			}
+		})
+	</script>
+</body>
+</html>
