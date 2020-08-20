@@ -9,12 +9,12 @@
 </head>
 <body>
 	<div id="app">
-		<div class="loading__box" v-show="isLoading">正在配對...</div>
-		<br>
-		<div class="send__box">
-			<label for="">輸入關鍵字</label>
-			<input type="text" v-model="key">
-			<button class="setbtn" @click="setId">確定</button>
+		<div class="wrap__box">
+			<div class="loading__box" v-show="isLoading==true">正在配對...</div>
+			<div class="send__box" v-show="!isLoading">
+				<input type="text" placeholder="請輸入關鍵字.." v-model="key">
+				<button class="setbtn" @click="setId">確定</button>
+			</div>
 		</div>
 		<br>
 		<div class="message" id="messageBody">
@@ -30,7 +30,7 @@
 		<div class="scroll"></div>
 		</div>
 		<br>
-		<div class="send__box send__box-bottom">
+		<div class="send__box send__box--bottom" v-show="obj">
 			<input type="text" v-model="send">
 			<button @click="sendMessage"class="submit">送出</button>
 			<button @click="discon">退出聊天</button>
@@ -63,7 +63,7 @@
 					socket.on('catch',
 						msg=>{
 							this.obj = msg;
-							this.isLoading = false;
+							this.isLoading = "GET!";
 						}
 					)
 				},

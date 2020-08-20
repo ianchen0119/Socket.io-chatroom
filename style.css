@@ -4,8 +4,18 @@
 			font-family: 'Noto Serif TC', serif;
 		}
 		body{
+			font-size: 20px;
 			background-color: #000;
-			color: white;
+			background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3)), url(https://lh3.googleusercontent.com/proxy/FWOBAVfQYasxV3KURX1VVKem1yOC2iazWAb8csOmqCDwI1CCzAA1zCpnAxR-wL2rbfZNcRHbI5b-SZfLASmF7uhJnzrksBWougEGlkw_-4U=w3840-h2160-p-k-no-nd-mv);
+    		opacity: 1;
+			color: black;
+			margin: 0;
+		}
+		#app{
+			width: 70vw;
+			height: 100vh;
+			background-color: rgba(0, 0, 0, 0.7);
+			margin: 0 auto;
 		}
 		.loading__box{
 			border-radius: 25px;
@@ -33,18 +43,16 @@
 		  width: 0px;
 		  z-index: -1;
 		}
-
 		.clear {
 		  clear: both;
 		}
-
 		.message {
 		  width: 70vw;
 		  height: 50vh;
 		  overflow: scroll;
 		  overflow-x:hidden;
 		  margin: 0 auto;
-		  background-color: aliceblue;
+		  /* background-color: aliceblue; */
 		}
 		.message .message__box {
 		  background-color: #00EC00;
@@ -78,5 +86,22 @@
 		.send__box{
 			position: absolute;
 			left: 50vw;
-			transform: translate(-50%,-50%);
+			transform: translate(-50%,0%);
+		}
+		.send__box input{
+			border: 0;
+			border-radius: .25rem;
+			width: 20vw;
+			height: 5vh;
+		}
+		.send__box button{
+			border: 0;
+			border-radius: .25rem;
+			background-color: #007bff;
+			color: white;
+			height: 5vh;
+			padding: 0 1rem;
+		}
+		.send__box--bottom{
+			bottom: 0;
 		}
